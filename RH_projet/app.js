@@ -4,7 +4,6 @@ const app = express()
 const port = process.env.PORT || 3000 
 const path = require('path')
 const initDb = require('./db/initDb')
-const jwt = require('jsonwebtoken')
 const cors = require('cors')
 require('dotenv').config()
 const authenticateToken = require('./helpers/authentification')
@@ -17,7 +16,7 @@ app.get(('/', (req, res) => {
 }))
 
 app.listen(port, () => console.log(`server run on port ${port}`))
-//initDb()
+initDb()
 
 
 require('./routes/login')(app)
