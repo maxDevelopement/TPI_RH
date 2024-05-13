@@ -1,6 +1,7 @@
-const Sequelize = require('sequelize');
-module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('Candidacy', {
+const { DataTypes } = require('sequelize')
+const { sequelize } = require('../db/sequelize')
+
+  const Candidacy = sequelize.define('Candidacy', {
     id_candidacy: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -9,17 +10,17 @@ module.exports = function(sequelize, DataTypes) {
       field: 'idCandidacy'
     },
     lastname: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
       field: 'Lastname'
     },
     firstname: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
       field: 'Firstname'
     },
     mail: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
       field: 'Mail'
     },
@@ -28,22 +29,24 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       field: 'Phone'
     },
-    postulation_date: {
-      type: DataTypes.INTEGER,
+    postulationDate: {
+      type: DataTypes.STRING,
       allowNull: false,
       field: 'PostulationDate'
     },
-    interview_date: {
-      type: DataTypes.INTEGER,
+    interviewDate: {
+      type: DataTypes.STRING,
       allowNull: true,
+      defaultValue: null,
       field: 'InterviewDate'
     },
     decision: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
+      defaultValue: 'pending',
       field: 'Decision'
     },
-    fk_job_offer: {
+    fkJobOffer: {
       type: DataTypes.INTEGER,
       allowNull: false,
       field: 'fkJobOffer'
@@ -71,5 +74,6 @@ module.exports = function(sequelize, DataTypes) {
         ]
       },
     ]
-  });
-};
+  })
+  
+module.exports = Candidacy 

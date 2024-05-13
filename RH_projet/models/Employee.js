@@ -1,6 +1,6 @@
-const Sequelize = require('sequelize');
-module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('Employee', {
+const { DataTypes } = require('sequelize')
+const { sequelize } = require('../db/sequelize')
+ const Employee = sequelize.define('Employee', {
     id_employee: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -74,7 +74,7 @@ module.exports = function(sequelize, DataTypes) {
       field: 'Rate'
     },
     activ: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BOOLEAN,
       allowNull: false,
       field: 'Activ'
     }
@@ -104,4 +104,4 @@ module.exports = function(sequelize, DataTypes) {
       },
     ]
   });
-};
+module.exports = Employee

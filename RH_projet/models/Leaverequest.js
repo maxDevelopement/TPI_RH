@@ -1,6 +1,6 @@
-const Sequelize = require('sequelize');
-module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('Leaverequest', {
+  const { DataTypes } = require('sequelize')
+  const { sequelize } = require('../db/sequelize')
+  const LeaveRequest =  sequelize.define('Leaverequest', {
     id_leave_request: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -8,19 +8,20 @@ module.exports = function(sequelize, DataTypes) {
       primaryKey: true,
       field: 'idLeaveRequest'
     },
-    fk_contract: {
+    fkContract: {
       type: DataTypes.INTEGER,
       allowNull: false,
       field: 'fkContract'
     },
-    star_date: {
-      type: DataTypes.DATEONLY,
+    startDate: {
+      type: DataTypes.STRING,
       allowNull: false,
       field: 'StarDate'
     },
-    end_date: {
-      type: DataTypes.DATEONLY,
-      allowNull: false,
+    endDate: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      defaultValue: null,
       field: 'EndDate'
     },
     reason: {
@@ -54,4 +55,5 @@ module.exports = function(sequelize, DataTypes) {
       },
     ]
   });
-};
+
+  module.exports = LeaveRequest

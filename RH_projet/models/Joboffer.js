@@ -1,6 +1,7 @@
-const Sequelize = require('sequelize');
-module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('Joboffer', {
+const { DataTypes } = require('sequelize')
+const { sequelize } = require('../db/sequelize')
+
+const JobOffer = sequelize.define('Joboffer', {
     id_job_offer: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -43,4 +44,4 @@ module.exports = function(sequelize, DataTypes) {
       },
     ]
   });
-};
+  module.exports = JobOffer
