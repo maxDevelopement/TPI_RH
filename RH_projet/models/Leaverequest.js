@@ -1,7 +1,7 @@
   const { DataTypes } = require('sequelize')
   const { sequelize } = require('../db/sequelize')
   const LeaveRequest =  sequelize.define('Leaverequest', {
-    id_leave_request: {
+    idLeaveRequest: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,

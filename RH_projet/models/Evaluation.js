@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize')
 const { sequelize } = require('../db/sequelize')
 const Evaluation = sequelize.define('Evaluation', {
-  id_evaluation: {
+  idEvaluation: {
     autoIncrement: true,
     type: DataTypes.INTEGER,
     allowNull: false,

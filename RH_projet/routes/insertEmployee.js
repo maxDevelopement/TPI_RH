@@ -33,7 +33,7 @@ module.exports = (app) => {
             type: body.type,
             startDate: body.startDate,
             endDate: null,
-            fkEmployee: 1//insertEmployee.id_employee
+            fkEmployee: insertEmployee.idEmployee
         })
         if(insertContract){
             return res.status(200).send(`success_insertEmployee`)

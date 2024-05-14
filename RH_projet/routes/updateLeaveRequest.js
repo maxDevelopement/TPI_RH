@@ -1,20 +1,22 @@
 const LeaveRequest = require('../models/Leaverequest')
-const { checkStatusAndExistLeaveRequest } = require('../helpers/checks')
 
 module.exports = (app) => {
     app.put('/api/updateLeaveRequest', async (req, res) => {
         console.log('reception requete')
         const body = req.body
-        const leaveReqCheck = await LeaveRequest.findOne({ where: {idLeaveRequest: idLeaveRequest} })
+        const leaveReqCheck = await LeaveRequest.findOne({ where: {idLeaveRequest: body.idLeaveRequest} })
+        console.log(leaveReqCheck.dataValues)
         if(leaveReqCheck && leaveReqCheck.status === 'pending'){
-            leaveRequest.set({
+            console.log("leaveReq exist and is pending")
+            leaveReqCheck.set({
                 status: body.status
             })
-            await leaveRequest.save()
+            await leaveReqCheck.save()
             const msg = `success_updateLeaveRequest`
             return res.status(200).send(msg)
         }else{
-            return false
+            const msg = `error_data`
+            return res.status(400).send(msg)
         }
     })
 }

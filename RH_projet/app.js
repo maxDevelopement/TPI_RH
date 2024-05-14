@@ -7,6 +7,7 @@ const initDb = require('./db/initDb')
 const cors = require('cors')
 require('dotenv').config()
 const authenticateToken = require('./helpers/authentification')
+const { Sequelize } = require('sequelize')
 
 app.use(cors({
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
@@ -26,10 +27,16 @@ initDb()
 require('./routes/login')(app)
 //app.use(authenticateToken)
 require('./routes/insertCandidacy')(app)
+require('./routes/insertEmployee')(app)
 require('./routes/insertEvaluation')(app)
 require('./routes/insertLeaveRequest')(app)
 require('./routes/updateLeaveRequest')(app)
-
+require('./routes/updateEmployee')(app)
+require('./routes/updateCandidacy')(app)
+require('./routes/getAllEmployee')(app)
+require('./routes/getAllJobOffer')(app)
+require('./routes/getAllEvaluationOfEmployee')(app)
+require('./routes/getAllCandidacyOfJobOffer')(app)
 
 
 // erreur 404 si aucunes route n'est trouvée
