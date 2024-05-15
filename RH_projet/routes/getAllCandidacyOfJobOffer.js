@@ -1,5 +1,6 @@
 const Candidacy = require('../models/Candidacy')
 const { getSpecificJobOffer } = require('../helpers/getters') 
+const { setArrayToSend } = require('../helpers/setters')
 
 module.exports = (app) => {
     app.get('/api/getAllCandidacyOfJobOffer', async (req, res) => {
@@ -11,11 +12,11 @@ module.exports = (app) => {
             if(selectedJobOffer){
                 console.log("job : ", selectedJobOffer)
                 const allCandidacy = await Candidacy.findAll({ where: {fkJobOffer: selectedJobOffer.idJobOffer}})
-                console.log(allCandidacy)
-                allCandidacy.forEach(candidacy => {
-                    console.log(candidacy)
-                    dataToSend.push(candidacy.dataValues)
-                })
+                if(allCandidacy === []){
+                    const msg = `error_nodata`
+                    return res.status(500).send(msg)
+                }
+                const dataToSend = setArrayToSend(allCandidacy)
                 const msg = `succes_getAllEvaluationOfEmployee`
                 return res.status(200).send({
                     msg: msg,

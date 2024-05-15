@@ -37,7 +37,8 @@ require('./routes/getAllEmployee')(app)
 require('./routes/getAllJobOffer')(app)
 require('./routes/getAllEvaluationOfEmployee')(app)
 require('./routes/getAllCandidacyOfJobOffer')(app)
-
+require('./routes/deleteCandidacy')(app)
+require('./routes/getAllInterview')(app)
 
 // erreur 404 si aucunes route n'est trouvée
 app.use((req, res) => {

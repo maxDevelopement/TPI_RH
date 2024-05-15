@@ -23,15 +23,14 @@ async function checkValidityLeaveRequest(idUser, startDate){
 // verifie que le job existe et est statut toujours pending ==> insertCandidacy
 async function checkValidityJobOffer(idJob){
     console.log("isJobOfferValid")
-    const jobSearched = (await JobOffer.findOne({where: {id_job_offer: idJob}})).dataValues
+    const jobSearched = (await JobOffer.findOne({where: {idJobOffer: idJob}})).dataValues
     console.log("job : ", jobSearched)
-    if(jobSearched && jobSearched.status === 'Pending'){
+    if(jobSearched && jobSearched.status === 'pending'){
         return true
     }else{
         return false
     }
 }
-
 module.exports = {
     checkValidityLeaveRequest, 
     checkValidityJobOffer 

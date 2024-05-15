@@ -1,13 +1,14 @@
 const { Sequelize } = require('sequelize')
 const Candidacy = require('../models/Candidacy')
-const { isJobOfferValid } = require('../helpers/checks')
+const { checkValidityJobOffer } = require('../helpers/checks')
 
 module.exports = (app) => {
     app.put('/api/insertCandidacy', async (req, res) => {
        console.log("recpetion requete")
         const body = req.body
         console.log("fk job : ", body.fkJobOffer)
-        const validityCheck = await isJobOfferValid(body.fkJobOffer)
+        const validityCheck = await checkValidityJobOffer(body.fkJobOffer)
+        console.log(validityCheck)
         if(validityCheck){
             try{
                 const insertCandidacy = await Candidacy.create({
