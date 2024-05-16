@@ -1,9 +1,22 @@
 const Employee = require('../models/Employee')
 const JobOffer = require('../models/Joboffer')
 
-async function getSpecificEmployee(idEmployee){
+async function getEmployeeByPseudo(pseudo){
     try{
-        const selectedEmployee = await Employee.findOne()
+        const searchedEmployee = await Employee.findOne({where: {pseudo: pseudo}})
+        if(searchedEmployee){
+            return searchedEmployee.dataValues
+        }else{
+            return null
+        }
+    }catch(error){
+        return null
+    }
+}
+
+async function getEmployeeById(idEmployee){
+    try{
+        const selectedEmployee = await Employee.findOne({idEmployee: idEmployee})
         if(selectedEmployee){
             console.log("employee trouvé : ", selectedEmployee.dataValues)
             return selectedEmployee.dataValues
@@ -27,11 +40,9 @@ async function getSpecificJobOffer(idJobOffer){
         return null
     }
 }
-async function getSpecificCandidacy(){
-
-}
 
 module.exports = {
-    getSpecificEmployee,
+    getEmployeeById,
+    getEmployeeByPseudo,
     getSpecificJobOffer
 }

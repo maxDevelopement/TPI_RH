@@ -7,12 +7,11 @@ const initDb = require('./db/initDb')
 const cors = require('cors')
 require('dotenv').config()
 const authenticateToken = require('./helpers/authentification')
-const { Sequelize } = require('sequelize')
 
 app.use(cors({
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true, // si vous utilisez des cookies ou des authentifications basées sur des en-têtes
-    origin: true // ou spécifiez vos domaines si nécessaire
+    credentials: true, 
+    origin: true 
 }))
 
 app.use(bodyParser.json())
@@ -37,8 +36,9 @@ require('./routes/getAllEmployee')(app)
 require('./routes/getAllJobOffer')(app)
 require('./routes/getAllEvaluationOfEmployee')(app)
 require('./routes/getAllCandidacyOfJobOffer')(app)
-require('./routes/deleteCandidacy')(app)
 require('./routes/getAllInterview')(app)
+require('./routes/deleteCandidacy')(app)
+require('./routes/deleteEmployee')(app)
 
 // erreur 404 si aucunes route n'est trouvée
 app.use((req, res) => {

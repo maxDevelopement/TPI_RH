@@ -1,5 +1,5 @@
 const Evaluation = require('../models/Evaluation')
-const { getSpecificEmployee } = require('../helpers/getters') 
+const { getEmployeeById } = require('../helpers/getters') 
 const { setArrayToSend } = require('../helpers/setters')
 
 module.exports = (app) => {
@@ -7,7 +7,7 @@ module.exports = (app) => {
         const idEmployee = req.body.idEmployee
         let dataToSend = []
         try{
-            const selectedEmployee = await getSpecificEmployee(idEmployee)
+            const selectedEmployee = await getEmployeeById(idEmployee)
             if(selectedEmployee){
                 console.log("employé : ", selectedEmployee)
                 const allEvaluation = await Evaluation.findAll({ where: {fkContract: selectedEmployee.idEmployee}})
