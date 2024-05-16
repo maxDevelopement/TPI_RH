@@ -10,17 +10,17 @@ const { sequelize } = require('../db/sequelize')
       field: 'idCandidacy'
     },
     lastname: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.STRING,
       allowNull: false,
       field: 'Lastname'
     },
     firstname: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.STRING,
       allowNull: false,
       field: 'Firstname'
     },
     mail: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.STRING,
       allowNull: false,
       field: 'Mail'
     },
@@ -30,28 +30,25 @@ const { sequelize } = require('../db/sequelize')
       field: 'Phone'
     },
     postulationDate: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.STRING,
       allowNull: false,
       field: 'PostulationDate'
     },
     interviewDate: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.STRING,
       allowNull: true,
+      defaultValue: null,
       field: 'InterviewDate'
     },
     decision: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.STRING,
       allowNull: false,
-      defaultValue: "pending",
+      defaultValue: 'pending',
       field: 'Decision'
     },
     fkJobOffer: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      references: {
-        model: 'joboffer',
-        key: 'idJobOffer'
-      },
       field: 'fkJobOffer'
     }
   }, {
@@ -76,14 +73,7 @@ const { sequelize } = require('../db/sequelize')
           { name: "Phone" },
         ]
       },
-      {
-        name: "fk_Candidacy_Job_offers1_idx",
-        using: "BTREE",
-        fields: [
-          { name: "fkJobOffer" },
-        ]
-      },
     ]
-});
-
-module.exports = Candidacy
+  })
+  
+module.exports = Candidacy 

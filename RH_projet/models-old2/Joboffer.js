@@ -22,7 +22,6 @@ const JobOffer = sequelize.define('Joboffer', {
     status: {
       type: DataTypes.STRING(255),
       allowNull: false,
-      defaultValue: "pending",
       field: 'Status'
     },
     rate: {
@@ -43,14 +42,6 @@ const JobOffer = sequelize.define('Joboffer', {
           { name: "idJobOffer" },
         ]
       },
-      {
-        name: "idJobOffer_UNIQUE",
-        unique: true,
-        using: "BTREE",
-        fields: [
-          { name: "idJobOffer" },
-        ]
-      },
     ]
-});
-module.exports = JobOffer
+  });
+  module.exports = JobOffer

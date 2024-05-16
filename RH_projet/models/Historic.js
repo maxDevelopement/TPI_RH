@@ -1,13 +1,13 @@
 const { DataTypes } = require('sequelize')
 const { sequelize } = require('../db/sequelize')
 
-const Evaluation = sequelize.define('Evaluation', {
-    idEvaluation: {
+const Historic = sequelize.define('Historic', {
+    idHistoric: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
-      field: 'idEvaluation'
+      field: 'idHistoric'
     },
     fkContract: {
       type: DataTypes.INTEGER,
@@ -18,29 +18,34 @@ const Evaluation = sequelize.define('Evaluation', {
       },
       field: 'fkContract'
     },
-    evaluationDate: {
+    service: {
       type: DataTypes.STRING(255),
       allowNull: false,
-      field: 'EvaluationDate'
+      field: 'Service'
     },
-    performanceNote: {
+    startDate: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+      field: 'StartDate'
+    },
+    endDate: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+      field: 'EndDate'
+    },
+    rate: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      field: 'PerformanceNote'
+      field: 'Rate'
     },
-    positiv: {
+    job: {
       type: DataTypes.STRING(255),
       allowNull: false,
-      field: 'Positiv'
-    },
-    negativ: {
-      type: DataTypes.STRING(255),
-      allowNull: false,
-      field: 'Negativ'
+      field: 'Job'
     }
   }, {
     sequelize,
-    tableName: 'evaluation',
+    tableName: 'historic',
     timestamps: false,
     indexes: [
       {
@@ -48,11 +53,11 @@ const Evaluation = sequelize.define('Evaluation', {
         unique: true,
         using: "BTREE",
         fields: [
-          { name: "idEvaluation" },
+          { name: "idHistoric" },
         ]
       },
       {
-        name: "fk_Evaluations_Contracts1_idx",
+        name: "fk_Historic_Contracts1_idx",
         using: "BTREE",
         fields: [
           { name: "fkContract" },
@@ -60,4 +65,4 @@ const Evaluation = sequelize.define('Evaluation', {
       },
     ]
 });
-module.exports = Evaluation
+module.exports = Historic

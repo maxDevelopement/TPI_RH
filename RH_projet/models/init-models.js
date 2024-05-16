@@ -3,6 +3,7 @@ var _Candidacy = require("./Candidacy");
 var _Contract = require("./Contract");
 var _Employee = require("./Employee");
 var _Evaluation = require("./Evaluation");
+var _Historic = require("./Historic");
 var _Joboffer = require("./Joboffer");
 var _Leaverequest = require("./Leaverequest");
 
@@ -11,28 +12,27 @@ function initModels(sequelize) {
   var Contract = _Contract(sequelize, DataTypes);
   var Employee = _Employee(sequelize, DataTypes);
   var Evaluation = _Evaluation(sequelize, DataTypes);
+  var Historic = _Historic(sequelize, DataTypes);
   var Joboffer = _Joboffer(sequelize, DataTypes);
   var Leaverequest = _Leaverequest(sequelize, DataTypes);
 
-  // decraration of relations of models
-
-  Employee.hasMany(Contract, { foreignKey : 'fk_employee'})
-  Contract.belongsTo(Employee)
-
-  Contract.hasMany(Evaluation, { foreignKey: 'fk_contract'})
-  Evaluation.belongsTo(Contract)
-
-  Contract.hasMany(Leaverequest, { foreignKey: 'fk_contract'})
-  Leaverequest.belongsTo(Contract)
-
-  Joboffer.hasMany(Candidacy, { foreignKey: 'fk_job_offer' })
-  Candidacy.belongsTo(Joboffer)
+  Evaluation.belongsTo(Contract, { as: "fk_contract_contract", foreignKey: "fk_contract"});
+  Contract.hasMany(Evaluation, { as: "evaluations", foreignKey: "fk_contract"});
+  Historic.belongsTo(Contract, { as: "fk_contract_contract", foreignKey: "fk_contract"});
+  Contract.hasMany(Historic, { as: "historics", foreignKey: "fk_contract"});
+  Leaverequest.belongsTo(Contract, { as: "fk_contract_contract", foreignKey: "fk_contract"});
+  Contract.hasMany(Leaverequest, { as: "leaverequests", foreignKey: "fk_contract"});
+  Contract.belongsTo(Employee, { as: "fk_employee_employee", foreignKey: "fk_employee"});
+  Employee.hasMany(Contract, { as: "contracts", foreignKey: "fk_employee"});
+  Candidacy.belongsTo(Joboffer, { as: "fk_job_offer_joboffer", foreignKey: "fk_job_offer"});
+  Joboffer.hasMany(Candidacy, { as: "candidacies", foreignKey: "fk_job_offer"});
 
   return {
     Candidacy,
     Contract,
     Employee,
     Evaluation,
+    Historic,
     Joboffer,
     Leaverequest,
   };
