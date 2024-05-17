@@ -34,11 +34,6 @@ const Employee = sequelize.define('Employee', {
       allowNull: false,
       field: 'Email'
     },
-    job: {
-      type: DataTypes.STRING(255),
-      allowNull: false,
-      field: 'Job'
-    },
     phone: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -76,7 +71,7 @@ const Employee = sequelize.define('Employee', {
     }
   }, {
     sequelize,
-    tableName: 'employee',
+    tableName: 'Employee',
     timestamps: false,
     indexes: [
       {

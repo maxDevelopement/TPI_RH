@@ -5,6 +5,7 @@ module.exports = (app) => {
         let dataToSend = []
         try{
             const allEmployeeDatas = await Employee.findAll()
+            console.log(allEmployeeDatas)
             allEmployeeDatas.forEach(employee => {
                 // AJOUTER COMPARAISON AVEC DATE DU JOUR
                 if(employee.dataValues.endDate === null){ // check si eployé encore actif

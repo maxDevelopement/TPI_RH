@@ -9,7 +9,7 @@ const Contract = sequelize.define('Contract', {
       primaryKey: true,
       field: 'idContract'
     },
-    fk_employee: {
+    fkEmployee: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
@@ -18,24 +18,29 @@ const Contract = sequelize.define('Contract', {
       },
       field: 'fkEmployee'
     },
-    type: {
-      type: DataTypes.STRING(255),
-      allowNull: false,
-      field: 'Type'
-    },
-    start_date: {
+    startDate: {
       type: DataTypes.STRING(255),
       allowNull: false,
       field: 'StartDate'
     },
-    end_date: {
+    endDate: {
       type: DataTypes.STRING(255),
       allowNull: true,
       field: 'EndDate'
-    }
+    },
+    job: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+      field: 'Job'
+    },
+    rate: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      field: 'Job'
+    },
   }, {
     sequelize,
-    tableName: 'contract',
+    tableName: 'Contract',
     timestamps: false,
     indexes: [
       {

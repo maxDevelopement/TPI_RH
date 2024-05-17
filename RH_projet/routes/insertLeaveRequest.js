@@ -1,5 +1,5 @@
 const LeaveRequest = require('../models/Leaverequest')
-const checkValidityLeaveRequest = require('../helpers/checks')
+const { checkValidityLeaveRequest } = require('../helpers/checks')
 module.exports = (app) => {
     app.put('/api/insertLeaveRequest', async (req, res) => {
        console.log("recpetion requete")

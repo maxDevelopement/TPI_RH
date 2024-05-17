@@ -31,7 +31,20 @@ async function checkValidityJobOffer(idJob){
         return false
     }
 }
+// check si des infos ont changées dans le contrat
+function checkChangeData(oldArray, newArray){
+    const oldOne = JSON.stringify(oldArray)
+    const newOne = JSON.stringify(newArray)
+
+    if(oldOne === newOne){
+        return true
+    }else{
+        return false
+    }
+}
+
 module.exports = {
     checkValidityLeaveRequest, 
-    checkValidityJobOffer 
+    checkValidityJobOffer,
+    checkChangeData
 }

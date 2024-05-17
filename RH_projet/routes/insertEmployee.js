@@ -12,7 +12,7 @@ module.exports = (app) => {
         try{
             // insertions dans la table "Employee"
             const insertEmployee = await Employee.create({
-                pseudo: `entreprise`,
+                pseudo: `pending`,
                 password: cryptedPassword,
                 lastname: body.lastname,
                 firstname: body.firstname,
@@ -33,22 +33,23 @@ module.exports = (app) => {
             //await insertEmployee.save({transaction})
             console.log(insertEmployee)
             // insertion dans la table "Contract"
-            const insertContract = await Contract.create({
+            await Contract.create({
                 type: body.type,
                 startDate: body.startDate,
                 endDate: null,
-                fkEmployee: insertEmployee.idEmployee
+                fkEmployee: insertEmployee.idEmployee,
+                job: body.job,
+                rate: body.rate
             })
-            if(!insertContract){
-                const msg = `error_data`
-                return res.status(400).send(msg)
-            }
             return res.status(200).send(`success_insertEmployee`)
         }catch(error){
-            //await transaction.rollback();
-            console.error('Transaction failed:', error);
-            const msg = `error_data`
-            return res.status(400).send(msg)
+            if (error instanceof Sequelize.UniqueConstraintError) {
+                const msg = 'unicity_error'
+                return res.status(400).send(msg)
+            }else{
+                const msg = `system_error`
+                return res.status(500).send(msg)
+            }
         }   
     })
 }
