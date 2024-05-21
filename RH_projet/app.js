@@ -15,9 +15,9 @@ app.use(cors({
 }))
 
 app.use(bodyParser.json())
-app.use(express.static(path.join(__dirname, 'src')))
+app.use(express.static(path.join(__dirname, '/dist')))
 app.get(('/', (req, res) => {
-    res.sendFile('index.html', { root: path.join(__dirname, 'src')});
+    res.sendFile('index.html', { root: path.join(__dirname, '/dist')});
 }))
 
 app.listen(port, () => console.log(`server run on port ${port}`))

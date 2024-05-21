@@ -35,7 +35,7 @@ const Employee = sequelize.define('Employee', {
       field: 'Email'
     },
     phone: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING(10),
       allowNull: false,
       field: 'Phone'
     },

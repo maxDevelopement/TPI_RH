@@ -12,7 +12,7 @@ module.exports = (app) => {
             if(selectedJobOffer){
                 console.log("job : ", selectedJobOffer)
                 const allCandidacy = await Candidacy.findAll({ where: {fkJobOffer: selectedJobOffer.idJobOffer}})
-                if(allCandidacy === []){
+                if(!allCandidacy.length){
                     const msg = `error_nodata`
                     return res.status(500).send(msg)
                 }

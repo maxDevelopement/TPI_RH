@@ -18,20 +18,25 @@ const Contract = sequelize.define('Contract', {
       },
       field: 'fkEmployee'
     },
+    type:{
+      type: DataTypes.STRING,
+      allowNull: false,
+      field: 'Type'
+    },
     startDate: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.DATE,
       allowNull: false,
       field: 'StartDate'
     },
     endDate: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.DATE,
       allowNull: true,
       field: 'EndDate'
     },
-    job: {
+    service: {
       type: DataTypes.STRING(255),
       allowNull: false,
-      field: 'Job'
+      field: 'Service'
     },
     rate: {
       type: DataTypes.INTEGER,
