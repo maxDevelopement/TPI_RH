@@ -40,16 +40,23 @@
 
 <script>
     import { ref } from 'vue'
+    import { useRouter } from 'vue-router'
     import loginRequest from './requests/login.js'
+
     export default {
         name: 'loginForm',  
         userData: ref(sessionStorage.getItem("user")),   
         data(){
+            const router = useRouter()
+            const goToProfil = () => {
+                router.push('/profil')
+            }
             return {
                 pseudo: '',
                 password: '',
                 error: false,
-                userData: 0
+                userData: 0,
+                goToProfil
             }
         },
         methods: {
@@ -72,6 +79,7 @@
                         }
                         console.log( JSON.stringify(data))
                         sessionStorage.setItem("user", JSON.stringify(data))
+                        this.goToProfil()
                     }
                 }catch(error){
                     this.error= true
