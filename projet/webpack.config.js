@@ -38,6 +38,16 @@ module.exports = {
     }),
   ],
   resolve: {
+    fallback: {
+      "fs": false,
+      "crypto": require.resolve("crypto-browserify"),
+      "stream": require.resolve("stream-browserify"),
+      "assert": require.resolve("assert/"),
+      "url": require.resolve("url/"),
+      "buffer": require.resolve("buffer/"),
+      "vm": require.resolve("vm-browserify"),
+      "process": require.resolve("process/browser")
+    },
     alias: {
       vue$: 'vue/dist/vue.esm-bundler.js',
     },

@@ -32,7 +32,7 @@ const JobOffer = sequelize.define('Joboffer', {
     }
   }, {
     sequelize,
-    tableName: 'joboffer',
+    tableName: 'JobOffer',
     timestamps: false,
     indexes: [
       {

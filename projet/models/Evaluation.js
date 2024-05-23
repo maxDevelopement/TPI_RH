@@ -18,10 +18,10 @@ const Evaluation = sequelize.define('Evaluation', {
       },
       field: 'fkContract'
     },
-    evaluationDate: {
-      type: DataTypes.STRING(255),
+    evaluationYear: {
+      type: DataTypes.INTEGER,
       allowNull: false,
-      field: 'EvaluationDate'
+      field: 'EvaluationYear'
     },
     performanceNote: {
       type: DataTypes.INTEGER,
@@ -40,8 +40,10 @@ const Evaluation = sequelize.define('Evaluation', {
     }
   }, {
     sequelize,
-    tableName: 'evaluation',
-    timestamps: false,
+    createdAt: true,
+    updatedAt: false,
+    tableName: 'Evaluation',
+    timestamps: true,
     indexes: [
       {
         name: "PRIMARY",

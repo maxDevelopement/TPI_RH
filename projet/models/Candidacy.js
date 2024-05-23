@@ -9,6 +9,15 @@ const { sequelize } = require('../db/sequelize')
       primaryKey: true,
       field: 'idCandidacy'
     },
+    fkJobOffer: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'joboffer',
+        key: 'idJobOffer'
+      },
+      field: 'fkJobOffer'
+    },
     lastname: {
       type: DataTypes.STRING(255),
       allowNull: false,
@@ -45,18 +54,9 @@ const { sequelize } = require('../db/sequelize')
       defaultValue: "pending",
       field: 'Decision'
     },
-    fkJobOffer: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'joboffer',
-        key: 'idJobOffer'
-      },
-      field: 'fkJobOffer'
-    }
   }, {
     sequelize,
-    tableName: 'candidacy',
+    tableName: 'Candidacy',
     timestamps: false,
     indexes: [
       {
@@ -65,15 +65,6 @@ const { sequelize } = require('../db/sequelize')
         using: "BTREE",
         fields: [
           { name: "idCandidacy" },
-        ]
-      },
-      {
-        name: "Mail",
-        unique: true,
-        using: "BTREE",
-        fields: [
-          { name: "Mail" },
-          { name: "Phone" },
         ]
       },
       {

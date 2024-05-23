@@ -61,10 +61,8 @@
         },
         methods: {
             async handleLoginSubmit(){
-                console.log(this.pseudo, ", ", this.password)
                 const testLogin = await loginRequest(this.pseudo, this.password)
                 try{
-                    console.log(testLogin.msg)
                     if(testLogin.msg === `error_data`){
                         console.log("error !")
                         this.error = true
@@ -72,12 +70,11 @@
                     }
                     this.error = false
                     if(testLogin.msg === 'success_login'){
-                        console.log("connexion successfull : ", testLogin.data)  
                         const data = {
                             employee:testLogin.data.employee,
-                            contract: testLogin.data.contract
+                            contract: testLogin.data.contract,
+                            leaveRequests: testLogin.data.leaveRequests
                         }
-                        console.log( JSON.stringify(data))
                         sessionStorage.setItem("user", JSON.stringify(data))
                         this.goToProfil()
                     }

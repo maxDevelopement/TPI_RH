@@ -81,7 +81,6 @@
             const data = checkUserConnexion()
             const employeeData = data.employee
             const contractData = data.contract
-            console.log("datas : ", employeeData, ", ", contractData)
             return {
                 employeeData,
                 contractData

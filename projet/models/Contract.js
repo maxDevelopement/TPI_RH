@@ -23,6 +23,16 @@ const Contract = sequelize.define('Contract', {
       allowNull: false,
       field: 'Type'
     },
+    service: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+      field: 'Service'
+    },
+    job: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+      field: 'Job'
+    },
     startDate: {
       type: DataTypes.DATE,
       allowNull: false,
@@ -33,15 +43,10 @@ const Contract = sequelize.define('Contract', {
       allowNull: true,
       field: 'EndDate'
     },
-    service: {
-      type: DataTypes.STRING(255),
-      allowNull: false,
-      field: 'Service'
-    },
     rate: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      field: 'Job'
+      field: 'Rate'
     },
   }, {
     sequelize,

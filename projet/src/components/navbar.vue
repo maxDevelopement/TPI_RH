@@ -6,7 +6,7 @@
         name: 'navBar',
         data(){
             const router = useRouter()
-            const activeLink = ref('')
+            const activeLink = ref('profil')
  
             const goToProfil = () => {
                 activeLink.value = 'profil'

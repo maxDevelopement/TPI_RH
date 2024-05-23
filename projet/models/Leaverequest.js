@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize')
 const { sequelize } = require('../db/sequelize')
 
-const LeaveRequest = sequelize.define('Leaverequest', {
+const LeaveRequest = sequelize.define('LeaveRequest', {
     idLeaveRequest: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -21,7 +21,7 @@ const LeaveRequest = sequelize.define('Leaverequest', {
     startDate: {
       type: DataTypes.STRING(255),
       allowNull: false,
-      field: 'StarDate'
+      field: 'StartDate'
     },
     endDate: {
       type: DataTypes.STRING(255),
@@ -46,7 +46,7 @@ const LeaveRequest = sequelize.define('Leaverequest', {
     }
   }, {
     sequelize,
-    tableName: 'leaverequest',
+    tableName: 'LeaveRequest',
     timestamps: false,
     indexes: [
       {

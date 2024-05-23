@@ -13,7 +13,7 @@ module.exports = (app) => {
         try{
             // requete qui va chercher l'utilisateur (son pseudo)
             let userData = await getEmployeeByPseudo(pseudo)
-            console.log("userdata : ", userData)
+            console.log("userdata0 : ", userData)
             if(userData === null){ // si il ne trouve rien 
                 const msg = "error_data"
                 return res.status(400).send({msg: msg, auth: false}) 
@@ -27,6 +27,8 @@ module.exports = (app) => {
                 return res.status(400).send({msg: msg})
             }
             delete userData.employee.password // suppression du passsword de la réponse
+            delete userData.contract.fkEmployee
+            console.log("userData1 : ", userData)
             // si passwords correspondent => user connecté !
             const msg = "success_login"
             const accessToken = jwt.sign(userData, process.env.ACCESS_TOKEN_SECRET)
