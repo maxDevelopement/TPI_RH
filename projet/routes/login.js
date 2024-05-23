@@ -6,6 +6,7 @@ const { getEmployeeByPseudo } = require('../helpers/getters')
 // ce endpoint attend 2 parametres : pseudo & password
 module.exports = (app) => {
     app.post('/api/login', async (req, res) => {
+        console.log("login")
         const pseudo = req.body.pseudo
         const password = req.body.password
         //const cryptedPassword = await bcrypt.hash(password, 10)
