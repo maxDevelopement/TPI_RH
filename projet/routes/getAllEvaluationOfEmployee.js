@@ -19,7 +19,6 @@ module.exports = (app) => {
             console.log(error)
             const msg = `error_getAllEvaluationOfEmployee`
             return res.status(400).send(msg)
-        }
-         
+        }       
     })
 }

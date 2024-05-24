@@ -1,14 +1,16 @@
 <script>
     import { useRouter } from 'vue-router'
     import { ref } from 'vue'
+    import { checkUserConnexion } from '../helpers/getters';
    
     export default{
         name: 'navBar',
-        data(){
+        setup(){
             const router = useRouter()
-            const activeLink = ref('profil')
- 
+            const activeLink = ref('')
+            const job = (job) => { return job === 'HR' }
             const goToProfil = () => {
+                console.log("job : ", job)
                 activeLink.value = 'profil'
                 router.push('/profil')
             }
@@ -34,7 +36,9 @@
                 goToCalendar,
                 goToHr,
                 goToConge,
-                handleLogout
+                handleLogout,
+                job,
+                checkUserConnexion
             }
         }
     }
@@ -45,16 +49,16 @@
             <a class="nav-link" :class="{active: activeLink === 'profil'}" aria-current="page" @click="goToProfil">Profil</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" :class="{active: activeLink === 'calendrier'}" @click="goToCalendar">Calendrier</a>
-        </li>            
-        <li class="nav-item">
-            <a class="nav-link" :class="{active: activeLink === 'hr'}" @click="goToHr">RH</a>
+            <a class="nav-link" :class="{active: activeLink.value === 'calendrier'}" aria-current="page" @click="goToCalendar">Calendrier</a>
+        </li>          
+        <li v-if="job(checkUserConnexion().contract.job)" class="nav-item">
+            <a class="nav-link" :class="{active: activeLink.value === 'hr'}" aria-current="page" @click="goToHr">RH</a>
+        </li>
+        <li v-if="job(checkUserConnexion().contract.job)" class="nav-item">
+            <a class="nav-link" :class="{active: activeLink.value === 'conge'}" aria-current="page" @click="goToConge">Demande de congés</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" :class="{active: activeLink === 'conge'}" @click="goToConge">Demande de congés</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" @click="handleLogout">Logout</a>
+            <a class="nav-link" aria-current="page" @click="handleLogout">Logout</a>
         </li>
     </ul>
 </template>

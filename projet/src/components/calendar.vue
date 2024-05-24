@@ -1,8 +1,13 @@
 
 <template>
   <nav-bar />
-  <h1>Calendrier personnel</h1>
-  <FullCalendar :options="calendarOptions" />
+  <div>
+    <h1>Calendrier personnel</h1>
+    <FullCalendar :options="calendarOptions" />
+  </div>
+  <leaveRequestForm v-if="this.leaveRequestPopup" />
+  <input v-if="this.leaveRequestPopup" type="button" value="Envoyer la demande de congé" @click="handleCloseLeaveRequestPopup">
+  <input v-else type="button" id="openSendLeaveRequestForm" value="Faire une demande de congé" @click="handleOpenLeaveRequestPopup">
 </template>
 
 <script>
@@ -13,10 +18,14 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import { checkUserConnexion } from '../helpers/getters'
 import { eachDayOfInterval, format } from 'date-fns'
+import leaveRequestForm from './leaveRequestForm.vue';
+
 export default {
+
   components: {
       FullCalendar, // make the <FullCalendar> tag available
-      'nav-bar': navBar
+      'nav-bar': navBar,
+      'leaveRequestForm': leaveRequestForm
   },
   data() {
 
@@ -25,11 +34,18 @@ export default {
         plugins: [ dayGridPlugin, interactionPlugin ],
         initialView: 'dayGridMonth',
         dateClick: this.handleDateClick,
-        events: this.showAllLeaveRequests()
+        events: this.showAllLeaveRequests(),
+        leaveRequestPopup: false,
       }
     }
   },
   methods: {
+    handleOpenLeaveRequestPopup(){
+      this.leaveRequestPopup = true
+    },
+    handleCloseLeaveRequestPopup(){
+      this.leaveRequestPopup = false
+    },
     handleDateClick: function(arg) {
       alert('click : ' + arg.dateStr)
     },
@@ -97,6 +113,9 @@ export default {
         }
       }
       return dataToReturn
+    },
+    openSendLeaveRequestForm(){
+      return 0
     }
   }
 } 

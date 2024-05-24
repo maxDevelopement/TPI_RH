@@ -73,7 +73,8 @@
                         const data = {
                             employee:testLogin.data.employee,
                             contract: testLogin.data.contract,
-                            leaveRequests: testLogin.data.leaveRequests
+                            leaveRequests: testLogin.data.leaveRequests,
+                            evaluations: testLogin.data.evaluations
                         }
                         sessionStorage.setItem("user", JSON.stringify(data))
                         this.goToProfil()

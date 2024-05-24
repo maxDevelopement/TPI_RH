@@ -2,6 +2,7 @@ const Employee = require('../models/Employee')
 const Contract = require('../models/Contract')
 const JobOffer = require('../models/Joboffer')
 const LeaveRequest = require('../models/Leaverequest')
+const Evaluation = require('../models/Evaluation')
 const { setArrayToSend } =require('./setters')
 
 async function getEmployeeByPseudo(pseudo){
@@ -14,10 +15,12 @@ async function getEmployeeByPseudo(pseudo){
                 return null
             }
             const searchedLeaveRequests = await getAllLeaveRequestsOfContract(searchedContract.idContract)
+            const searchedEvaluations = await getAllEvaluationOfEmployee(searchedContract.idContract)
             const dataToReturn = {
                 employee: searchedEmployee.dataValues,
                 contract: searchedContract,
-                leaveRequests: searchedLeaveRequests
+                leaveRequests: searchedLeaveRequests,
+                evaluations: searchedEvaluations
             }
             return dataToReturn
         }else{
@@ -49,11 +52,21 @@ async function getEmployeeById(idEmployee){
     }
 }
 
+async function getAllEvaluationOfEmployee(idContract){
+    try{
+        const allEvaluation = await Evaluation.findAll({ where: {fkContract: idContract}})
+        const dataToSend = setArrayToSend(allEvaluation)
+        return dataToSend
+    }catch(error){
+        return null
+    }
+    
+}
+
 async function getContractOfEmployee(idEmployee){
     try{
         const searchedContract = (await Contract.findOne({where: {fkEmployee: idEmployee}})).dataValues
         if(searchedContract){
-            console.log("CONTRAT : ", searchedContract)
             return searchedContract
         }else{
             return null
@@ -98,5 +111,6 @@ module.exports = {
     getEmployeeById,
     getEmployeeByPseudo,
     getSpecificJobOffer,
-    getAllLeaveRequestsOfContract
+    getAllLeaveRequestsOfContract,
+    getAllEvaluationOfEmployee
 }

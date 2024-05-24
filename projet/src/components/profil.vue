@@ -2,6 +2,9 @@
     <div>
         <nav-bar />
         <h1>Profil</h1>
+        <div>
+            <input @click="this.handleOpenEvaluations" type="button" class="btn btn-primary" id="ShowAllEvaluation" value="voir les évaluations">
+        </div>
         <form>
             <h3>Données personnelles</h3>
             <div class="form-group row">
@@ -56,26 +59,38 @@
                 <div class="col-sm-10">                    
                     <input type="text" class="form-control" id="rate" :value="`${contractData.rate}%`" readonly>
                 </div> 
-                <label for="startDate" class="col-sm-2 col-form-label">Date de début</label>
+                <label for="startDate" class="col-sm-2 col-form-label">Début</label>
                 <div class="col-sm-10">                    
                     <input type="text" class="form-control" id="startDate" :value="contractData.startDate" readonly>
                 </div>
-                <label for="endDate" class="col-sm-2 col-form-label">Date de fin</label>
+                <label for="endDate" class="col-sm-2 col-form-label">Fin</label>
                 <div class="col-sm-10">                    
                     <input type="text" class="form-control" id="endDate" :value="contractData.endDate" readonly>
                 </div>
             </div>
         </form>
+        <input @click="this.handleCloseEvaluations" type="button" value="Fermer évaluations" class="btn btn-primary" v-if="evaluationPopup">
+        <evaluations v-if="evaluationPopup" />
     </div>
 </template>
 <script>
-    import navBar from './navBar.vue';
+    import navBar from './navBar.vue'
+    import evaluations from './evaluations.vue'
     import { checkUserConnexion } from '../helpers/getters'
 
     export default{
         name: 'profil',
         components: {
-            'nav-bar': navBar
+            'nav-bar': navBar,
+            'evaluations': evaluations
+        },
+        methods: {
+            handleOpenEvaluations(){
+                this.evaluationPopup = true
+            },
+            handleCloseEvaluations(){
+                this.evaluationPopup = false
+            }
         },
         data(){
             const data = checkUserConnexion()
@@ -83,8 +98,19 @@
             const contractData = data.contract
             return {
                 employeeData,
-                contractData
+                contractData,
+                checkUserConnexion,
+                evaluationPopup: false,
             }
         }
     }
 </script>
+
+<style>
+    form{
+        margin: 20px;
+    }
+    #ShowAllEvaluation{
+        text-align: center;
+    }
+</style>
