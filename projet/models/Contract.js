@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize')
 const { sequelize } = require('../db/sequelize')
 
-const Contract = sequelize.define('Contract', {
+const Contract = sequelize.define('contracts', {
     idContract: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -17,6 +17,16 @@ const Contract = sequelize.define('Contract', {
         key: 'idEmployee'
       },
       field: 'fkEmployee'
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      field: 'email'
+    },
+    phone: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      field: 'phone'
     },
     type:{
       type: DataTypes.STRING,
@@ -48,9 +58,10 @@ const Contract = sequelize.define('Contract', {
       allowNull: false,
       field: 'Rate'
     },
+
   }, {
     sequelize,
-    tableName: 'Contract',
+    tableName: 'contracts',
     timestamps: false,
     indexes: [
       {

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le : mer. 22 mai 2024 à 11:48
+-- Généré le : lun. 27 mai 2024 à 14:28
 -- Version du serveur : 8.0.33-cll-lve
 -- Version de PHP : 8.1.28
 
@@ -24,15 +24,15 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Structure de la table `Candidacy`
+-- Structure de la table `candidacies`
 --
 
-CREATE TABLE `Candidacy` (
+CREATE TABLE `candidacies` (
   `idCandidacy` int UNSIGNED NOT NULL,
   `FkJobOffer` int NOT NULL,
   `Lastname` varchar(45) NOT NULL,
   `Firstname` varchar(45) NOT NULL,
-  `Mail` varchar(45) NOT NULL,
+  `Mail` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `Phone` int NOT NULL,
   `PostulationDate` date NOT NULL,
   `InterviewDate` date DEFAULT NULL,
@@ -42,34 +42,30 @@ CREATE TABLE `Candidacy` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `Contract`
+-- Structure de la table `contracts`
 --
 
-CREATE TABLE `Contract` (
+CREATE TABLE `contracts` (
   `idContract` int UNSIGNED NOT NULL,
   `FkEmployee` int NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `phone` int NOT NULL,
   `Type` varchar(3) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `Service` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `Job` varchar(45) NOT NULL,
   `StartDate` date NOT NULL,
   `EndDate` date DEFAULT NULL,
-  `Rate` int NOT NULL
+  `Rate` int NOT NULL,
+  `salary` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
---
--- Déchargement des données de la table `Contract`
---
-
-INSERT INTO `Contract` (`idContract`, `FkEmployee`, `Type`, `Service`, `Job`, `StartDate`, `EndDate`, `Rate`) VALUES
-(8, 16, 'CDD', 'hr', '70', '2012-12-12', NULL, 0);
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `Employee`
+-- Structure de la table `employees`
 --
 
-CREATE TABLE `Employee` (
+CREATE TABLE `employees` (
   `idEmployee` int NOT NULL,
   `Pseudo` varchar(45) NOT NULL,
   `Password` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
@@ -85,35 +81,29 @@ CREATE TABLE `Employee` (
   `activ` tinyint NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
---
--- Déchargement des données de la table `Employee`
---
-
-INSERT INTO `Employee` (`idEmployee`, `Pseudo`, `Password`, `Lastname`, `Firstname`, `Email`, `Phone`, `IBAN`, `Street`, `Number`, `NPA`, `City`, `activ`) VALUES
-(16, 'Erica16', '$2b$10$HHmcpobw.qy9nDBbiXQ9LOK.WylsTrLFLI2QUa8ZyIAo0UyhfklKK', 'Duchemin', 'Erica', 'EricaDuchemin22@entreprise.com', '0765559555', '000320-CH09w9-4466-DF', 'Bonheur', 44, 1001, 'Aigle', 1);
-
 -- --------------------------------------------------------
 
 --
--- Structure de la table `Evaluation`
+-- Structure de la table `evaluations`
 --
 
-CREATE TABLE `Evaluation` (
+CREATE TABLE `evaluations` (
   `idEvaluation` int NOT NULL,
   `FkContract` int UNSIGNED NOT NULL,
   `EvaluationYear` int NOT NULL,
   `PerformanceNote` int NOT NULL,
   `Positiv` varchar(45) NOT NULL,
-  `Negativ` varchar(45) NOT NULL
+  `Negativ` varchar(45) NOT NULL,
+  `createdAt` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `Historic`
+-- Structure de la table `historics`
 --
 
-CREATE TABLE `Historic` (
+CREATE TABLE `historics` (
   `idHistoric` int UNSIGNED NOT NULL,
   `FkContract` int UNSIGNED NOT NULL,
   `Service` varchar(45) NOT NULL,
@@ -126,10 +116,10 @@ CREATE TABLE `Historic` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `JobOffer`
+-- Structure de la table `joboffers`
 --
 
-CREATE TABLE `JobOffer` (
+CREATE TABLE `joboffers` (
   `idJobOffer` int NOT NULL,
   `Name` varchar(45) NOT NULL,
   `Place` varchar(45) NOT NULL,
@@ -140,10 +130,10 @@ CREATE TABLE `JobOffer` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `LeaveRequest`
+-- Structure de la table `leaverequests`
 --
 
-CREATE TABLE `LeaveRequest` (
+CREATE TABLE `leaverequests` (
   `idLeaveRequest` int UNSIGNED NOT NULL,
   `FkContract` int UNSIGNED NOT NULL,
   `StartDate` date NOT NULL,
@@ -158,26 +148,25 @@ CREATE TABLE `LeaveRequest` (
 --
 
 --
--- Index pour la table `Candidacy`
+-- Index pour la table `candidacies`
 --
-ALTER TABLE `Candidacy`
+ALTER TABLE `candidacies`
   ADD PRIMARY KEY (`idCandidacy`),
-  ADD UNIQUE KEY `Mail_UNIQUE` (`Mail`),
-  ADD UNIQUE KEY `Phone_UNIQUE` (`Phone`),
-  ADD KEY `fk_Candidacy_Job_offers1_idx` (`FkJobOffer`);
+  ADD KEY `FkJobOffer_2` (`FkJobOffer`,`Mail`,`Phone`);
 
 --
--- Index pour la table `Contract`
+-- Index pour la table `contracts`
 --
-ALTER TABLE `Contract`
+ALTER TABLE `contracts`
   ADD PRIMARY KEY (`idContract`),
   ADD UNIQUE KEY `idUser_UNIQUE` (`idContract`),
+  ADD UNIQUE KEY `email` (`email`,`phone`),
   ADD KEY `fk_User_Employee_idx` (`FkEmployee`);
 
 --
--- Index pour la table `Employee`
+-- Index pour la table `employees`
 --
-ALTER TABLE `Employee`
+ALTER TABLE `employees`
   ADD PRIMARY KEY (`idEmployee`),
   ADD UNIQUE KEY `Email_UNIQUE` (`Email`),
   ADD UNIQUE KEY `Phone_UNIQUE` (`Phone`),
@@ -185,32 +174,32 @@ ALTER TABLE `Employee`
   ADD UNIQUE KEY `Pseudo_UNIQUE` (`Pseudo`);
 
 --
--- Index pour la table `Evaluation`
+-- Index pour la table `evaluations`
 --
-ALTER TABLE `Evaluation`
+ALTER TABLE `evaluations`
   ADD PRIMARY KEY (`idEvaluation`),
   ADD UNIQUE KEY `idEvaluation_UNIQUE` (`idEvaluation`),
   ADD KEY `fk_Evaluations_Contracts1_idx` (`FkContract`);
 
 --
--- Index pour la table `Historic`
+-- Index pour la table `historics`
 --
-ALTER TABLE `Historic`
+ALTER TABLE `historics`
   ADD PRIMARY KEY (`idHistoric`),
   ADD UNIQUE KEY `idHistoric_UNIQUE` (`idHistoric`),
   ADD KEY `fk_Historic_Contracts1_idx` (`FkContract`);
 
 --
--- Index pour la table `JobOffer`
+-- Index pour la table `joboffers`
 --
-ALTER TABLE `JobOffer`
+ALTER TABLE `joboffers`
   ADD PRIMARY KEY (`idJobOffer`),
   ADD UNIQUE KEY `idJobOffer_UNIQUE` (`idJobOffer`);
 
 --
--- Index pour la table `LeaveRequest`
+-- Index pour la table `leaverequests`
 --
-ALTER TABLE `LeaveRequest`
+ALTER TABLE `leaverequests`
   ADD PRIMARY KEY (`idLeaveRequest`),
   ADD UNIQUE KEY `idLeaveRequest_UNIQUE` (`idLeaveRequest`),
   ADD KEY `fk_Leave_requests_Contracts1_idx` (`FkContract`);
@@ -220,80 +209,80 @@ ALTER TABLE `LeaveRequest`
 --
 
 --
--- AUTO_INCREMENT pour la table `Candidacy`
+-- AUTO_INCREMENT pour la table `candidacies`
 --
-ALTER TABLE `Candidacy`
-  MODIFY `idCandidacy` int UNSIGNED NOT NULL AUTO_INCREMENT;
+ALTER TABLE `candidacies`
+  MODIFY `idCandidacy` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT pour la table `Contract`
+-- AUTO_INCREMENT pour la table `contracts`
 --
-ALTER TABLE `Contract`
-  MODIFY `idContract` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+ALTER TABLE `contracts`
+  MODIFY `idContract` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
--- AUTO_INCREMENT pour la table `Employee`
+-- AUTO_INCREMENT pour la table `employees`
 --
-ALTER TABLE `Employee`
-  MODIFY `idEmployee` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+ALTER TABLE `employees`
+  MODIFY `idEmployee` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
--- AUTO_INCREMENT pour la table `Evaluation`
+-- AUTO_INCREMENT pour la table `evaluations`
 --
-ALTER TABLE `Evaluation`
-  MODIFY `idEvaluation` int NOT NULL AUTO_INCREMENT;
+ALTER TABLE `evaluations`
+  MODIFY `idEvaluation` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
--- AUTO_INCREMENT pour la table `Historic`
+-- AUTO_INCREMENT pour la table `historics`
 --
-ALTER TABLE `Historic`
+ALTER TABLE `historics`
   MODIFY `idHistoric` int UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pour la table `JobOffer`
+-- AUTO_INCREMENT pour la table `joboffers`
 --
-ALTER TABLE `JobOffer`
-  MODIFY `idJobOffer` int NOT NULL AUTO_INCREMENT;
+ALTER TABLE `joboffers`
+  MODIFY `idJobOffer` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT pour la table `LeaveRequest`
+-- AUTO_INCREMENT pour la table `leaverequests`
 --
-ALTER TABLE `LeaveRequest`
-  MODIFY `idLeaveRequest` int UNSIGNED NOT NULL AUTO_INCREMENT;
+ALTER TABLE `leaverequests`
+  MODIFY `idLeaveRequest` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Contraintes pour les tables déchargées
 --
 
 --
--- Contraintes pour la table `Candidacy`
+-- Contraintes pour la table `candidacies`
 --
-ALTER TABLE `Candidacy`
-  ADD CONSTRAINT `fk_Candidacy_Job_offers1` FOREIGN KEY (`FkJobOffer`) REFERENCES `JobOffer` (`idJobOffer`);
+ALTER TABLE `candidacies`
+  ADD CONSTRAINT `fk_Candidacy_Job_offers1` FOREIGN KEY (`FkJobOffer`) REFERENCES `joboffers` (`idJobOffer`);
 
 --
--- Contraintes pour la table `Contract`
+-- Contraintes pour la table `contracts`
 --
-ALTER TABLE `Contract`
-  ADD CONSTRAINT `fk_User_Employee` FOREIGN KEY (`FkEmployee`) REFERENCES `Employee` (`idEmployee`);
+ALTER TABLE `contracts`
+  ADD CONSTRAINT `fk_User_Employee` FOREIGN KEY (`FkEmployee`) REFERENCES `employees` (`idEmployee`);
 
 --
--- Contraintes pour la table `Evaluation`
+-- Contraintes pour la table `evaluations`
 --
-ALTER TABLE `Evaluation`
-  ADD CONSTRAINT `fk_Evaluations_Contracts1` FOREIGN KEY (`FkContract`) REFERENCES `Contract` (`idContract`);
+ALTER TABLE `evaluations`
+  ADD CONSTRAINT `fk_Evaluations_Contracts1` FOREIGN KEY (`FkContract`) REFERENCES `contracts` (`idContract`);
 
 --
--- Contraintes pour la table `Historic`
+-- Contraintes pour la table `historics`
 --
-ALTER TABLE `Historic`
-  ADD CONSTRAINT `fk_Historic_Contracts1` FOREIGN KEY (`FkContract`) REFERENCES `Contract` (`idContract`);
+ALTER TABLE `historics`
+  ADD CONSTRAINT `fk_Historic_Contracts1` FOREIGN KEY (`FkContract`) REFERENCES `contracts` (`idContract`);
 
 --
--- Contraintes pour la table `LeaveRequest`
+-- Contraintes pour la table `leaverequests`
 --
-ALTER TABLE `LeaveRequest`
-  ADD CONSTRAINT `fk_Leave_requests_Contracts1` FOREIGN KEY (`FkContract`) REFERENCES `Contract` (`idContract`);
+ALTER TABLE `leaverequests`
+  ADD CONSTRAINT `fk_Leave_requests_Contracts1` FOREIGN KEY (`FkContract`) REFERENCES `contracts` (`idContract`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

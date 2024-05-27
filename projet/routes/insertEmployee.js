@@ -7,8 +7,9 @@ const Sequelize = require('sequelize')
 module.exports = (app) => {
     app.put('/api/insertEmployee', async (req, res) => {
         const body = req.body
-        const cryptedPassword = await bcrypt.hash(body.password, 10)
-        console.log("crypted : ", cryptedPassword)
+        console.log(body)
+        const password = 'Pa$$w0rd'
+        const cryptedPassword = await bcrypt.hash(password, 10)
         try{
             // insertions dans la table "Employee"
             const insertEmployee = await Employee.create({
@@ -17,7 +18,6 @@ module.exports = (app) => {
                 lastname: body.lastname,
                 firstname: body.firstname,
                 email: body.email,
-                job: body.job,
                 phone: body.phone,
                 iban: body.iban,
                 street: body.street,
@@ -32,10 +32,14 @@ module.exports = (app) => {
             await Contract.create({
                 fkEmployee: insertEmployee.idEmployee,
                 type: body.type,
+                email: body.email_prof,
+                phone: body.phone_prof,
                 startDate: body.startDate,
-                endDate: null,                
+                endDate: null,
+                job: body.job,                
                 service: body.service,
-                rate: body.rate
+                rate: body.rate,
+                salary: body.salary
             })
             return res.status(200).send(`success_insertEmployee`)
         }catch(error){

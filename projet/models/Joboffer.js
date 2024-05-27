@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize')
 const { sequelize } = require('../db/sequelize')
 
-const JobOffer = sequelize.define('Joboffer', {
+const JobOffer = sequelize.define('joboffers', {
     idJobOffer: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -32,7 +32,7 @@ const JobOffer = sequelize.define('Joboffer', {
     }
   }, {
     sequelize,
-    tableName: 'JobOffer',
+    tableName: 'joboffers',
     timestamps: false,
     indexes: [
       {

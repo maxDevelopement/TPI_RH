@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize')
 const { sequelize } = require('../db/sequelize')
 
-const Historic = sequelize.define('Historic', {
+const Historic = sequelize.define('historics', {
     idHistoric: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -45,7 +45,7 @@ const Historic = sequelize.define('Historic', {
     }
   }, {
     sequelize,
-    tableName: 'historic',
+    tableName: 'historics',
     timestamps: false,
     indexes: [
       {

@@ -8,9 +8,8 @@
         setup(){
             const router = useRouter()
             const activeLink = ref('')
-            const job = (job) => { return job === 'HR' }
+            const hr = (service) => { console.log('hr ?: ', service === 'HR'); return service === 'HR' }
             const goToProfil = () => {
-                console.log("job : ", job)
                 activeLink.value = 'profil'
                 router.push('/profil')
             }
@@ -37,7 +36,7 @@
                 goToHr,
                 goToConge,
                 handleLogout,
-                job,
+                hr,
                 checkUserConnexion
             }
         }
@@ -46,16 +45,19 @@
 <template>
     <ul class="nav nav-tabs">
         <li class="nav-item">
-            <a class="nav-link" :class="{active: activeLink === 'profil'}" aria-current="page" @click="goToProfil">Profil</a>
+            <a class="nav-link" :class="{active: activeLink.value === 'profil'}" aria-current="page" @click="goToProfil">Profil</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" :class="{active: activeLink.value === 'calendrier'}" aria-current="page" @click="goToCalendar">Calendrier</a>
         </li>          
-        <li v-if="job(checkUserConnexion().contract.job)" class="nav-item">
+        <li v-if="hr(checkUserConnexion().contract.service)" class="nav-item">
             <a class="nav-link" :class="{active: activeLink.value === 'hr'}" aria-current="page" @click="goToHr">RH</a>
         </li>
-        <li v-if="job(checkUserConnexion().contract.job)" class="nav-item">
+        <li v-if="hr(checkUserConnexion().contract.service)" class="nav-item">
             <a class="nav-link" :class="{active: activeLink.value === 'conge'}" aria-current="page" @click="goToConge">Demande de congés</a>
+        </li>
+        <li v-if="hr(checkUserConnexion().contract.service)" class="nav-item">
+            <a class="nav-link" :class="{active: activeLink.value === 'conge'}" aria-current="page" @click="goToConge">Recrutement</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" aria-current="page" @click="handleLogout">Logout</a>

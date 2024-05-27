@@ -5,46 +5,45 @@
     <h1>Calendrier personnel</h1>
     <FullCalendar :options="calendarOptions" />
   </div>
-  <leaveRequestForm v-if="this.leaveRequestPopup" />
-  <input v-if="this.leaveRequestPopup" type="button" value="Envoyer la demande de congé" @click="handleCloseLeaveRequestPopup">
-  <input v-else type="button" id="openSendLeaveRequestForm" value="Faire une demande de congé" @click="handleOpenLeaveRequestPopup">
+  <leaveRequestForm v-if="leaveRequestForm" />
+  <input v-if="!leaveRequestForm" class="btnbtn-primary" type="button" id="openSendLeaveRequestForm" value="Faire une demande de congé" @click="handleOpenLeaveRequestPopup">
 </template>
 
 <script>
 
-import navBar from './navBar.vue';
+import navBar from './navBar.vue'
 import FullCalendar from '@fullcalendar/vue3'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import { checkUserConnexion } from '../helpers/getters'
-import { eachDayOfInterval, format } from 'date-fns'
-import leaveRequestForm from './leaveRequestForm.vue';
+import { calculInterval } from '../helpers/getters'
+import leaveRequestForm from './leaveRequestForm.vue'
 
 export default {
-
   components: {
-      FullCalendar, // make the <FullCalendar> tag available
-      'nav-bar': navBar,
-      'leaveRequestForm': leaveRequestForm
+    'nav-bar': navBar,
+    'leaveRequestForm': leaveRequestForm,
+      FullCalendar, 
   },
   data() {
-
     return {
+      leaveRequestForm: false,
+      remaningsLeaves: 0,
       calendarOptions: {
         plugins: [ dayGridPlugin, interactionPlugin ],
         initialView: 'dayGridMonth',
         dateClick: this.handleDateClick,
         events: this.showAllLeaveRequests(),
-        leaveRequestPopup: false,
       }
     }
   },
   methods: {
     handleOpenLeaveRequestPopup(){
-      this.leaveRequestPopup = true
+      console.log("click open !")
+      this.leaveRequestForm = true
     },
     handleCloseLeaveRequestPopup(){
-      this.leaveRequestPopup = false
+      this.leaveRequestForm = false
     },
     handleDateClick: function(arg) {
       alert('click : ' + arg.dateStr)
@@ -52,24 +51,28 @@ export default {
     showAllLeaveRequests(){
       const user = checkUserConnexion()
       const allLeaveRequests = user.leaveRequests
-      console.log("allLeaveRequests : ", allLeaveRequests)
       if(!allLeaveRequests.length){
         return
       }
       let allEvents = []
       allLeaveRequests.forEach(leaveRequest => {    
-        console.log("leave req status : ", leaveRequest.status)    
         if(leaveRequest.endDate !== null){
           const allDates =this.getAllDates(leaveRequest.startDate, leaveRequest.endDate)
           allDates.forEach((date) => {
               allEvents.push(this.createEvent(leaveRequest.status, date))
+              this.calculRemaningLeaves(leaveRequest.status)
           })
         }else{
           allEvents.push(this.createEvent(leaveRequest.status, leaveRequest.startDate))
+          this.calculRemaningLeaves(leaveRequest.status)
         }
       })
-      console.log("final data : ", allEvents)
       return allEvents
+    },
+    calculRemaningLeaves(status){
+      if(status === 'accepted'){
+        this.remaningsLeaves++ 
+      }
     },
     getAllDates(start, end){  
       let allDates= []
@@ -77,15 +80,12 @@ export default {
         allDates.push(startDate)
         return allDates
       }else{
-        const startDate = new Date(start)
-        const endDate = new Date(end)
-        allDates = eachDayOfInterval({start: startDate, end: endDate}).map(date => format(date, 'yyyy-MM-dd'))
+        allDates = calculInterval(start, end)
         return allDates
       }
     },
     createEvent(status, date){
       let dataToReturn
-      console.log("createEvent () : ", status)
       switch(status){
         case 'accepted': {
           dataToReturn = {
@@ -113,9 +113,6 @@ export default {
         }
       }
       return dataToReturn
-    },
-    openSendLeaveRequestForm(){
-      return 0
     }
   }
 } 

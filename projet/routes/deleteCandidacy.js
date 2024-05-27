@@ -1,7 +1,6 @@
 const Candidacy = require('../models/Candidacy')
 module.exports = (app) => {
-    app.put('/api/deleteCandidacy', async (req, res) => {     
-        console.log('reception data : ', req.body)
+    app.put('/api/deleteCandidacy', async (req, res) => {
         try{
             const body = req.body
             const searchedCandidacy = await Candidacy.findOne({where: {idCandidacy: body.idCandidacy}})

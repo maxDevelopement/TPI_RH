@@ -24,8 +24,11 @@ async function checkValidityLeaveRequest(idUser, startDate){
 
 // verifie que le job existe et est statut toujours pending ==> insertCandidacy
 async function checkValidityJobOffer(idJob){
-    const jobSearched = (await JobOffer.findOne({where: {idJobOffer: idJob}})).dataValues
-    if(jobSearched && jobSearched.status === 'pending'){
+    const jobSearched = (await JobOffer.findOne({where: {idJobOffer: idJob}}))
+    if(!jobSearched){
+        return false
+    }
+    if(jobSearched && jobSearched.dataValues.status === 'pending'){
         return true
     }else{
         return false

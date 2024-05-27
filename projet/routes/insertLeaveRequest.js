@@ -15,7 +15,7 @@ module.exports = (app) => {
             const msg = `success_insertLeaveRequest`
             return res.status(200).send(msg)
         }else{
-            return res.status(400).send(`une demande de congé similaire a dejà été remise de votre part`)
+            return res.status(400).send(`error_unicity`)
         }
     })
 }
