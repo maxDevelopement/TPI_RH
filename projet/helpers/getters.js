@@ -34,19 +34,10 @@ async function getEmployeeByPseudo(pseudo){
 async function getEmployeeById(idEmployee){
     try{
         const selectedEmployee = await Employee.findOne({idEmployee: idEmployee})
-        if(selectedEmployee){
-            const searchedContract = await getContractOfEmployee(searchedEmployee.dataValues.idEmployee)
-            if(!searchedContract){
-                return null
-            }
-            const dataToReturn = {
-                employee: searchedEmployee.dataValues,
-                contract: searchedContract
-            }
-            return dataToReturn
-        }else{
+        if(!selectedEmployee){           
             return null
         }
+        return selectedEmployee
     }catch(error){
         return null
     }
@@ -65,12 +56,11 @@ async function getAllEvaluationOfEmployee(idContract){
 
 async function getContractOfEmployee(idEmployee){
     try{
-        const searchedContract = (await Contract.findOne({where: {fkEmployee: idEmployee}})).dataValues
-        if(searchedContract){
-            return searchedContract
-        }else{
-            return null
+        const searchedContract = (await Contract.findOne({where: {fkEmployee: idEmployee}}))
+        if(!searchedContract){
+                return null
         }
+        return searchedContract
     }catch(error){
         console.log(error)
         return null
@@ -103,13 +93,13 @@ async function getAllLeaveRequestsOfContract(idContract){
     }catch(error){
         return null
     }
-    
-
 }
+
 
 module.exports = {
     getEmployeeById,
     getEmployeeByPseudo,
+    getContractOfEmployee,
     getSpecificJobOffer,
     getAllLeaveRequestsOfContract,
     getAllEvaluationOfEmployee

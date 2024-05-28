@@ -8,18 +8,22 @@ const { Op } = require('sequelize')
 // manque le check de si une date fait partie d'une autre demande de congé 
 async function checkValidityLeaveRequest(idUser, startDate){
     console.log("checkLeaveRequestValidity")
-    const leaveReqCheck = await LeaveRequest.findAll(
-        {
-            where: {
-                [Op.and]: [{fkContract: idUser}, {startDate: startDate}]
-            },
+    try{
+        const leaveReqCheck = await LeaveRequest.findAll(
+            {
+                where: {
+                    [Op.and]: [{fkContract: idUser}, {startDate: startDate}]
+                },
+            }
+        )
+        console.log("result : ", leaveReqCheck)
+        if(!leaveReqCheck || leaveReqCheck.length === 0){
+            return true
         }
-    )
-    if(leaveReqCheck.length === 0) {
-        return true
-    }else{
         return false
-    }
+    }catch(error){
+        return true
+    }    
 }
 
 // verifie que le job existe et est statut toujours pending ==> insertCandidacy
@@ -68,14 +72,33 @@ function checkChangeData(oldArray, newArray){
     }
 }
 // check si une evaluation a deja ete remplie pour cet user et cette année 
-// renvoie true si c'est le cas ou false si non
-async function checkEvaluationValidity(idContract, evaluationYear){
-    //const searchedEvaluation = await Evaluation.findOne({where})
+// renvoie false si c'est le cas ou true si non
+async function checkEvaluationyear(idContract, evaluationYear){
+    try{
+        const evaluationYearExist = await Evaluation.findOne(
+            {
+                where: {
+                    [Op.and]: [
+                        {fkContract: idContract},
+                        {evaluationYear: evaluationYear}
+                    ] 
+                } 
+            }
+        )
+        if(!evaluationYearExist){
+            return false
+        }else if(evaluationYear){
+            return true
+        }
+    }catch(error){
+        return false
+    }
 }
 
 module.exports = {
     checkValidityLeaveRequest, 
     checkValidityJobOffer,
     checkChangeData,
-    checkValidityCandidacy
+    checkValidityCandidacy,
+    checkEvaluationyear
 }

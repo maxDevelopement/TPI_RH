@@ -58,7 +58,11 @@ const Contract = sequelize.define('contracts', {
       allowNull: false,
       field: 'Rate'
     },
-
+    salary: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      field: 'Salary'
+    }
   }, {
     sequelize,
     tableName: 'contracts',

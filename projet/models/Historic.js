@@ -9,14 +9,10 @@ const Historic = sequelize.define('historics', {
       primaryKey: true,
       field: 'idHistoric'
     },
-    fkContract: {
+    fkEmployee: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      references: {
-        model: 'contract',
-        key: 'idContract'
-      },
-      field: 'fkContract'
+      field: 'FkEmployee'
     },
     service: {
       type: DataTypes.STRING(255),
@@ -42,6 +38,21 @@ const Historic = sequelize.define('historics', {
       type: DataTypes.STRING(255),
       allowNull: false,
       field: 'Job'
+    },
+    salary: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      field: 'Salary'
+    },
+    email: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+      field: 'Email'
+    },
+    phone: {
+      type: DataTypes.STRING(10),
+      allowNull: false,
+      field: 'Phone'
     }
   }, {
     sequelize,
@@ -60,7 +71,7 @@ const Historic = sequelize.define('historics', {
         name: "fk_Historic_Contracts1_idx",
         using: "BTREE",
         fields: [
-          { name: "fkContract" },
+          { name: "FkContract" },
         ]
       },
     ]

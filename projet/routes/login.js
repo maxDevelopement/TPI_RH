@@ -9,15 +9,13 @@ module.exports = (app) => {
         console.log("login")
         const pseudo = req.body.pseudo
         const password = req.body.password
-        //const cryptedPassword = await bcrypt.hash(password, 10)
-        //console.log("loginUser : ", req.body, ", ", cryptedPassword)
         try{
             // requete qui va chercher l'utilisateur (son pseudo)
             let userData = await getEmployeeByPseudo(pseudo)
             console.log("userdata0 : ", userData)
             if(userData === null){ // si il ne trouve rien 
                 const msg = "error_data"
-                return res.status(400).send({msg: msg, auth: false}) 
+                return res.status(400).send({msg: msg}) 
             }
             // si il trouve le user, compare les passwords 
             const isPasswordValid = await bcrypt.compare(password, userData.employee.password)
@@ -33,7 +31,7 @@ module.exports = (app) => {
             // si passwords correspondent => user connecté !
             const msg = "success_login"
             const accessToken = jwt.sign(userData, process.env.ACCESS_TOKEN_SECRET)
-            return res.status(200).send({accessToken: accessToken, auth: true, msg: msg, data: userData})
+            return res.status(200).send({accessToken: accessToken, msg: msg, data: userData})
         }catch(error){
             console.error(error)
             const msg = `error_system`

@@ -4,7 +4,6 @@ module.exports = (app) => {
         try{
             const body = req.body
             const searchedCandidacy = await Candidacy.findOne({where: {idCandidacy: body.idCandidacy}})
-            console.log(searchedCandidacy)
             await searchedCandidacy.destroy()
             const msg = `success_deleteCandidacy`
             return res.status(200).send(msg)
