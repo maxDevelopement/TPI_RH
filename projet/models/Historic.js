@@ -53,6 +53,11 @@ const Historic = sequelize.define('historics', {
       type: DataTypes.STRING(10),
       allowNull: false,
       field: 'Phone'
+    }, 
+    type: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      field: 'Type'
     }
   }, {
     sequelize,

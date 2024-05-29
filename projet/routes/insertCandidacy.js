@@ -2,6 +2,8 @@ const { Sequelize } = require('sequelize')
 const Candidacy = require('../models/Candidacy')
 const { checkValidityJobOffer, checkValidityCandidacy } = require('../helpers/checks')
 
+//Insère une nouvelle candidature pour une offre d'emploi spécifiée.
+// Retourne un message de succès si l'insertion est effectuée, sinon retourne un message d'erreur.
 module.exports = (app) => {
     app.put('/api/insertCandidacy', async (req, res) => {
         const body = req.body
@@ -28,9 +30,8 @@ module.exports = (app) => {
                 const msg = 'success_insertCandidacy'
                 return res.status(200).send(msg)
             }
-            // gestion erreurs contraintes unicité pour champs : mail, phone
             catch(error){ 
-                console.log(error)
+                return res.status(500).send(`error_system`)
             }
         }else{
             const msg = `unicity_error`

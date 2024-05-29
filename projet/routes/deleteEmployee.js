@@ -1,9 +1,11 @@
 const { getEmployeeById, getContractOfEmployee, getAllLeaveRequestsOfContract, getAllEvaluationOfEmployee } = require('../helpers/getters')
 const { deleteArray, backupContractInHistorics } = require('../helpers/setters')
 
+// ce endpoint ne fonctionne que partiellement
+// Cette route permet de supprimer un employé spécifié par son identifiant.
+// Retourne un message de succès si la suppression est effectuée, sinon retourne un message d'erreur.
 module.exports = (app) => {
     app.put('/api/deleteEmployee', async (req, res) => {  
-        console.log("delete employee !")
         const idEmployee = req.body.idEmployee
         const idContract = req.body.idContract
         let endDate = req.body.endDate
@@ -20,18 +22,14 @@ module.exports = (app) => {
         try{
             const searchedLeaveRequests = await getAllLeaveRequestsOfContract(idContract)
             const searchedEvaluations = await getAllEvaluationOfEmployee(idContract)
-            console.log("data eval : ", searchedEvaluations)
-            const backup = await backupContractInHistorics(searchedEmployee.dataValues.idEmployee, endDate, searchedContract.dataValues)
-            console.log("backup : ", backup)
+            await backupContractInHistorics(searchedEmployee.dataValues.idEmployee, endDate, searchedContract.dataValues) // ne fonctionne pas
             if(searchedLeaveRequests && searchedLeaveRequests.length > 0){
-                await deleteArray(searchedLeaveRequests)
-                console.log("LRs deleted")
+                await deleteArray(searchedLeaveRequests) // suppression demandes de congés
             }
             if(searchedEvaluations && searchedEvaluations.length > 0){
-                await deleteArray(searchedEvaluations)
-                console.log("evals deleted")
+                await deleteArray(searchedEvaluations) // suppression des evaluations
             }
-            await searchedContract.destroy()
+            await searchedContract.destroy() // suppression du contrat
             searchedEmployee.activ =  false
             searchedEmployee.save()
             const msg = `success_deleteEmployee`

@@ -27,6 +27,7 @@ async function checkValidityLeaveRequest(idUser, startDate){
 }
 
 // verifie que le job existe et est statut toujours pending ==> insertCandidacy
+//sinon renvoie false
 async function checkValidityJobOffer(idJob){
     const jobSearched = (await JobOffer.findOne({where: {idJobOffer: idJob}}))
     if(!jobSearched){
@@ -38,7 +39,8 @@ async function checkValidityJobOffer(idJob){
         return false
     }
 }
-
+// check siune candidature pour le même poste a un mail ou tél identique
+// renvoie false si il en trouve une et true si aucune
 async function checkValidityCandidacy(idJobOffer, mail, phone){
     try{
         const checkCandidacy = await Candidacy.findOne({
@@ -72,7 +74,7 @@ function checkChangeData(oldArray, newArray){
     }
 }
 // check si une evaluation a deja ete remplie pour cet user et cette année 
-// renvoie false si c'est le cas ou true si non
+// renvoie true si c'est le cas ou false si non
 async function checkEvaluationyear(idContract, evaluationYear){
     try{
         const evaluationYearExist = await Evaluation.findOne(

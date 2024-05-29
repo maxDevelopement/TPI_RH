@@ -5,6 +5,8 @@ const LeaveRequest = require('../models/Leaverequest')
 const Evaluation = require('../models/Evaluation')
 const { setArrayToSend } =require('./setters')
 
+// Cette fonction recherche un employé par son pseudo et récupère ses informations complètes.
+// Retourne un objet contenant les informations de l'employé, son contrat, ses demandes de congé et ses évaluations, ou null si non trouvé.
 async function getEmployeeByPseudo(pseudo){
     try{
         const searchedEmployee = await Employee.findOne({where: {pseudo: pseudo}})
@@ -30,7 +32,8 @@ async function getEmployeeByPseudo(pseudo){
         return null
     }
 }
-
+// Cette fonction recherche un employé par son identifiant.
+// Retourne l'objet employé si trouvé, sinon retourne null.
 async function getEmployeeById(idEmployee){
     try{
         const selectedEmployee = await Employee.findOne({idEmployee: idEmployee})
@@ -42,7 +45,8 @@ async function getEmployeeById(idEmployee){
         return null
     }
 }
-
+// Récupère toutes les évaluations d'un employé pour un contrat donné.
+// Retourne un tableau des évaluations ou null en cas d'erreur.
 async function getAllEvaluationOfEmployee(idContract){
     try{
         const allEvaluation = await Evaluation.findAll({ where: {fkContract: idContract}})
@@ -53,7 +57,8 @@ async function getAllEvaluationOfEmployee(idContract){
     }
     
 }
-
+// Recherche le contrat d'un employé par son identifiant.
+// Retourne l'objet contrat si trouvé, sinon retourne null.
 async function getContractOfEmployee(idEmployee){
     try{
         const searchedContract = (await Contract.findOne({where: {fkEmployee: idEmployee}}))
@@ -66,7 +71,8 @@ async function getContractOfEmployee(idEmployee){
         return null
     }
 }
-
+// Recherche une offre d'emploi spécifique par son identifiant.
+// Retourne les détails de l'offre d'emploi si trouvée, sinon retourne null.
 async function getSpecificJobOffer(idJobOffer){
     try{
         const searchedJobOffer = await JobOffer.findOne({where: {idJobOffer: idJobOffer}})
@@ -79,7 +85,8 @@ async function getSpecificJobOffer(idJobOffer){
         return null
     }
 }
-
+// Récupère toutes les demandes de congé pour un contrat donné.
+// Retourne un tableau des demandes de congé ou null en cas d'erreur.
 async function getAllLeaveRequestsOfContract(idContract){
     try{
         const leaveReqSearched = await LeaveRequest.findAll({where: {fkContract: idContract}})

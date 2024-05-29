@@ -5,11 +5,12 @@ const { sequelize } = require('../db/sequelize')
 const Sequelize = require('sequelize')
 const { setRandomPassword } = require('../helpers/setters')
 
+// Insère un nouvel employé dans les tables "Employee" et "Contract".
+// Retourne un message de succès avec les informations d'authentification ou un message d'erreur en cas d'échec
 module.exports = (app) => {
     app.put('/api/insertEmployee', async (req, res) => {
         const body = req.body
-        const generatedPassword = setRandomPassword()   
-        console.log("passw0rd : ", generatedPassword) 
+        const generatedPassword = setRandomPassword() 
         const cryptedPassword = await bcrypt.hash(generatedPassword, 10)
         try{
             // insertions dans la table "Employee"
@@ -45,7 +46,7 @@ module.exports = (app) => {
             const msg = `success_insertEmployee`
             return res.status(200).send({msg: msg, user: {pseudo: insertEmployee.pseudo, password: generatedPassword}})
         }catch(error){
-            console.log(error)
+            // gestion des erreurs dues aux contraintes d'unicités 
             if (error instanceof Sequelize.UniqueConstraintError) {
                 const msg = 'unicity_error'
                 return res.status(400).send(msg)

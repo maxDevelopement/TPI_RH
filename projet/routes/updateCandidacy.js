@@ -1,6 +1,8 @@
 const Candidacy = require('../models/Candidacy')
 const { Sequelize } = require('sequelize')
 
+// Met à jour les informations d'une candidature spécifiée.
+// Retourne un message de succès si la mise à jour est effectuée, sinon retourne un message d'erreur.
 module.exports = (app) => {
     app.put('/api/updateCandidacy', async (req, res) => {
         const body = req.body
@@ -9,6 +11,9 @@ module.exports = (app) => {
             const msg = `error_data`
             return res.status(400).send(msg)
         }   
+        if(body.decision !== 'pending' && body.decision !== 'accepted' && body.decision !== 'refused'){
+            return res.status(400).send(`error_data`)
+        }
         try{   
             searchedCandidacy.set({
                 lastname: body.lastname,

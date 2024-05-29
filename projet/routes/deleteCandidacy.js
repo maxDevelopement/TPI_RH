@@ -1,4 +1,7 @@
 const Candidacy = require('../models/Candidacy')
+
+// Supprimer une candidature spécifiée par son identifiant.
+// Retourne un message de succès si la suppression est effectuée, sinon retourne un message d'erreur
 module.exports = (app) => {
     app.put('/api/deleteCandidacy', async (req, res) => {
         try{

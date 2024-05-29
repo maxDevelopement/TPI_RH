@@ -1,4 +1,6 @@
 const jwt = require('jsonwebtoken')
+
+// middleware qui vérifie le token de la requête et laisse passer si valide
 function authenticateToken(req, res, next){
     const authHeader = req.headers['authorization']
     const token = authHeader && authHeader.split(' ')[1]

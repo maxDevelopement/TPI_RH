@@ -3,15 +3,14 @@ const Contract = require('../models/Contract')
 const bcrypt = require('bcrypt')
 const { checkChangeContract } = require('../helpers/checks')
 
+// ce endpoint ne fonctionne pas
+// Met à jour les informations d'un employé et de son contrat.
+// Retourne un message de succès si la mise à jour est effectuée, sinon retourne un message d'erreur
 module.exports = (app) => {
     app.put('/api/updateEmployee', async (req, res) => {
-       console.log("recpetion requete")
         const body = req.body
-        console.log("body : ", body)
-        console.log("modele : ", Employee)
         const password = body.password
         const cryptedPassword = await bcrypt.hash(password, 10)
-        console.log("crypted : , ", cryptedPassword)
         
         const searchedEmployee = await Employee.findOne({where: {idEmployee: body.idEmployee}})
         const searchedContract = await Contract.findOne({where: {fkEmployee: body.idEmployee}})
@@ -24,7 +23,7 @@ module.exports = (app) => {
         checkChangeContract()
 
         searchedEmployee.set({
-            pseudo: 'Entreprise2',
+            pseudo: body.pseudo,
             password: cryptedPassword,
             lastname: body.lastname,
             firstname: body.firstname,
